@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/chatbot.css' %}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="status-indicator"></div>
+            <h2>AI Assistant</h2>
+        </div>
+    
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hello! How can I help you today? 👋
+            </div>
+        </div>
+    
+        <div class="typing-indicator" id="typingIndicator">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="userInput" placeholder="Type your message..." />
+                <button class="send-button" id="sendButton">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+<script src="{%static 'js/chatbot.js' %}"></script>
+{% endblock %}

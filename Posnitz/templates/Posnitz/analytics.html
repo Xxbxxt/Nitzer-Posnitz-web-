@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics{% endblock %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/analytics.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+<!-- Main Content -->
+<main class="main-content  p-8">
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="card p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="text-gray-500 text-sm">Total Sales Today</h3>
+                <span class="text-green-500"><i class="fas fa-arrow-up"></i></span>
+            </div>
+            <p class="text-2xl font-bold">$12,456</p>
+            <div class="text-green-500 text-sm flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i>
+                +12% from yesterday
+            </div>
+        </div>
+        
+        <div class="card p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="text-gray-500 text-sm">Available Products</h3>
+                <span class="text-red-500"><i class="fas fa-exclamation-circle"></i></span>
+            </div>
+            <p class="text-2xl font-bold">284</p>
+            <div class="text-red-500 text-sm">3 items low stock</div>
+            <div class="progress-bar mt-2">
+                <div class="progress-bar-fill" style="width: 70%"></div>
+            </div>
+        </div>
+        
+        <div class="card p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="text-gray-500 text-sm">Active Suppliers</h3>
+                <span class="text-blue-500"><i class="fas fa-plus-circle"></i></span>
+            </div>
+            <p class="text-2xl font-bold">32</p>
+            <div class="text-blue-500 text-sm flex items-center">
+                <i class="fas fa-plus mr-1"></i>
+                2 new this month
+            </div>
+        </div>
+        
+        <div class="card p-6">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="text-gray-500 text-sm">Customer Satisfaction</h3>
+                <span class="text-green-500"><i class="fas fa-smile"></i></span>
+            </div>
+            <p class="text-2xl font-bold">94%</p>
+            <div class="text-green-500 text-sm flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i>
+                +2% this week
+            </div>
+            <div class="progress-bar mt-2">
+                <div class="progress-bar-fill" style="width: 94%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Sales Graph -->
+        <div class="card p-6 lg:col-span-2">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Sales Overview</h3>
+                <select class="border rounded p-1 text-sm">
+                    <option>Last 7 days</option>
+                    <option>Last 30 days</option>
+                    <option>Last 90 days</option>
+                </select>
+            </div>
+            <canvas id="salesChart" height="200"></canvas>
+        </div>
+
+        <!-- Business Advice -->
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Business Advice</h3>
+                <i class="fas fa-lightbulb text-yellow-400"></i>
+            </div>
+            <p class="text-gray-600 mb-4">Today's Focus: Inventory Optimization</p>
+            <ul class="space-y-3">
+                <li class="flex items-center bg-green-50 p-2 rounded">
+                    <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                    <span>Review low stock items</span>
+                </li>
+                <li class="flex items-center bg-blue-50 p-2 rounded">
+                    <i class="fas fa-check-circle text-blue-500 mr-2"></i>
+                    <span>Contact top suppliers</span>
+                </li>
+                <li class="flex items-center bg-purple-50 p-2 rounded">
+                    <i class="fas fa-check-circle text-purple-500 mr-2"></i>
+                    <span>Update pricing strategy</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Product Types -->
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Product Categories</h3>
+                <button class="text-blue-500 text-sm">View All</button>
+            </div>
+            <canvas id="productChart" height="200"></canvas>
+        </div>
+
+        <!-- Recent Comments -->
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Recent Comments</h3>
+                <span class="text-sm text-blue-500">View All</span>
+            </div>
+            <div class="space-y-4">
+                <div class="border-b pb-3">
+                    <div class="flex items-start gap-3">
+                        <img src="/api/placeholder/32/32" class="w-8 h-8 rounded-full" alt="User">
+                        <div>
+                            <p class="text-sm text-gray-600">Great service! Very fast delivery.</p>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500">John D.</span>
+                                <span class="mx-2 text-gray-300">•</span>
+                                <span class="text-xs text-gray-500">2h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-b pb-3">
+                    <div class="flex items-start gap-3">
+                        <img src="/api/placeholder/32/32" class="w-8 h-8 rounded-full" alt="User">
+                        <div>
+                            <p class="text-sm text-gray-600">Product quality exceeded expectations!</p>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs text-gray-500">Sarah M.</span>
+                                <span class="mx-2 text-gray-300">•</span>
+                                <span class="text-xs text-gray-500">5h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Goods -->
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Low Stock Alert</h3>
+                <button class="text-red-500 text-sm">View All</button>
+            </div>
+            <div class="space-y-3">
+                <div class="bg-red-50 p-3 rounded">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i class="fas fa-box text-red-500 mr-2"></i>
+                            <span>Product A</span>
+                        </div>
+                        <span class="text-red-500 font-semibold">5 left</span>
+                    </div>
+                    <div class="progress-bar mt-2">
+                        <div class="progress-bar-fill bg-red-500" style="width: 10%"></div>
+                    </div>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <i class="fas fa-box text-yellow-500 mr-2"></i>
+                            <span>Product B</span>
+                        </div>
+                        <span class="text-yellow-500 font-semibold">12 left</span>
+                    </div>
+                    <div class="progress-bar mt-2">
+                        <div class="progress-bar-fill bg-yellow-500" style="width: 25%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Mobile Bottom Navigation -->
+<div class="bottom-nav hidden md:hidden">
+    <div class="grid grid-cols-5 bg-white border-t p-3">
+        <a href="#" class="flex flex-col items-center text-blue-500">
+            <i class="fas fa-home"></i>
+            
+{% endblock %}

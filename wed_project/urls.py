@@ -15,11 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from Posnitz import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('home/', views.home, name='home')
+    path('home/', views.home, name='home'),
+
+    #The sidebar pages
+    path('analytics/', views.analytics, name='analytics'),
+    path('chatbot/', views.chatbot, name='chatbot'),
+    path('inventory/', views.inventory, name='inventory'),
+
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
