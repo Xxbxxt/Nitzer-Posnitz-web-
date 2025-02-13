@@ -1,20 +1,32 @@
+:root {
+  --primary: #4f46e5; /* Example primary color */
+  --primary-lighter: #e0e0e0; /* Light version of primary */
+  --primary-gradient: linear-gradient(to right, #6366f1, #4f46e5); /* Example gradient */
+  --text-dark: #111827;
+  --text-light: #6b7280;
+  --background-color: #fffaec; /* Light orange background */
+}
+
 body {
-  font-family: Poppins, sans-serif;
+  font-family: 'Poppins', sans-serif; /* Consistent font */
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fffaec; /* Light orange background */
+  background-color: var(--background-color);
   margin: 0;
 }
 
 .container {
-  max-width: 400px; /* Adjust the width of the container */
+  max-width: 400px;
   width: 100%;
   padding: 2rem;
-  background-color: #fff; /* White background for the form */
-  border-radius: 1rem; /* Rounded corners */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Modern shadow effect */
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper { /* Added to contain form elements */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,7 +38,7 @@ body {
 }
 
 .logo-container img {
-  width: 60px; /* Smaller logo size for a modern look */
+  width: 60px;
   height: auto;
 }
 
@@ -43,19 +55,35 @@ p {
   margin-bottom: 1.5rem;
 }
 
+.message { /* Style for Django messages */
+  color: #d66000; /* Example message color */
+  background-color: #ffeeba;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
 .form-group {
   width: 100%;
   margin-bottom: 1rem;
 }
 
+label { /* Style labels */
+  display: block; /* Make labels stack on top of inputs */
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  font-size: 0.875rem;
+}
+
 .form-group input {
-  width: 100%;
+  width: 100%; /* Ensure input takes full width of .form-group */
   font-size: 0.875rem;
   padding: 0.8rem;
   border: 1px solid var(--primary-lighter);
   border-radius: 0.5rem;
-  background-color: #fef5e6; /* Light orange input background */
+  background-color: #fef5e6;
   transition: border-color 0.3s ease;
+  box-sizing: border-box; /* Crucial for consistent sizing */
 }
 
 .form-group input:focus {
@@ -63,29 +91,37 @@ p {
   outline: none;
 }
 
+.error { /* Style for form errors */
+  color: red; /* Or any other error color */
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
 .remember-forgot {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: space-between; /* Keeps space between items */
+  align-items: center; /* Vertically aligns items */
   width: 100%;
   margin-bottom: 1.5rem;
   font-size: 0.875rem;
 }
+
 
 .login-btn {
   width: 100%;
   font-size: 1rem;
   padding: 0.8rem;
   background: var(--primary-gradient);
-  color: white;
   border-radius: 0.5rem;
-  text-align: center;
+  color: white; /* White text for button */
   font-weight: 500;
   transition: background 0.3s ease;
+  border: none; /* Remove default button border */
+  cursor: pointer; /* Make it look clickable */
 }
 
 .login-btn:hover {
-  background: hsl(222, 90%, 50%);
+  background: linear-gradient(to right, #5557e9, #4338ca); /* Slightly darker gradient */
 }
 
 .google-signin {
@@ -101,10 +137,16 @@ p {
   border-radius: 0.5rem;
   color: var(--text-dark);
   transition: background 0.3s ease;
+  cursor: pointer;
 }
 
 .google-signin:hover {
   background-color: #f5f5f5;
+}
+
+.google-signin object { /* Style the Google SVG */
+  width: 20px;
+  height: 20px;
 }
 
 .or-divider {
@@ -131,3 +173,195 @@ p {
 .or-divider::after {
   right: 0;
 }
+
+:root {
+  --primary: #4f46e5; /* Example primary color */
+  --primary-lighter: #e0e0e0; /* Light version of primary */
+  --primary-gradient: linear-gradient(to right, #6366f1, #4f46e5); /* Example gradient */
+  --text-dark: #111827;
+  --text-light: #6b7280;
+  --background-color: #fffaec; /* Light orange background */
+}
+
+body {
+  font-family: 'Poppins', sans-serif; /* Consistent font */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  margin: 0;
+}
+
+.container {
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper { /* Added to contain form elements */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 1rem;
+}
+
+.logo-container img {
+  width: 60px;
+  height: auto;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.message { /* Style for Django messages */
+  color: #d66000; /* Example message color */
+  background-color: #ffeeba;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+label { /* Style labels */
+  display: block; /* Make labels stack on top of inputs */
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  width: 100%;
+  font-size: 0.875rem;
+  padding: 0.8rem;
+  border: 1px solid var(--primary-lighter);
+  border-radius: 0.5rem;
+  background-color: #fef5e6;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box; /* Needed for consistent width */
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.error { /* Style for form errors */
+  color: red; /* Or any other error color */
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.remember-me { /* Added class for "Remember Me" container */
+  display: flex; /* Enables flexbox for alignment */
+  align-items: center; /* Vertically centers checkbox and label */
+}
+
+.remember-me input[type="checkbox"] { /* Style the checkbox */
+  margin-right: 0.5rem; /* Add some space between checkbox and label */
+}
+
+.remember-me label { /* Style the "Remember Me" label */
+  margin-bottom: 0; /* Remove default bottom margin for labels */
+  cursor: pointer; /* Make label clickable */
+}
+
+.login-btn {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.8rem;
+  background: var(--primary-gradient);
+  border-radius: 0.5rem;
+  color: white; /* White text for button */
+  font-weight: 500;
+  transition: background 0.3s ease;
+  border: none; /* Remove default button border */
+  cursor: pointer; /* Make it look clickable */
+}
+
+.login-btn:hover {
+  background: linear-gradient(to right, #5557e9, #4338ca); /* Slightly darker gradient */
+}
+
+.google-signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 0.8rem;
+  background-color: #fff;
+  border: 1px solid var(--primary-lighter);
+  border-radius: 0.5rem;
+  color: var(--text-dark);
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.google-signin:hover {
+  background-color: #f5f5f5;
+}
+
+.google-signin object { /* Style the Google SVG */
+  width: 20px;
+  height: 20px;
+}
+
+.or-divider {
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  position: relative;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background-color: var(--text-light);
+}
+
+.or-divider::before {
+  left: 0;
+}
+
+.or-divider::after {
+  right: 0;
+}
+
+/* .signup-link { /* Style for the sign-up link 
+  margin-top: */

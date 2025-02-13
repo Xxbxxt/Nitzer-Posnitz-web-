@@ -1,23 +1,29 @@
 :root {
-    --primary-color: #4f46e5;
+    --primary-color: #4f46e5; /* Or any color you prefer */
     --error-color: #ef4444;
     --success-color: #22c55e;
+    --border-color: #d1d5db; /* Consistent border color */
+    --text-color-primary: #111827; /* Dark primary text */
+    --text-color-secondary: #6b7280; /* Lighter secondary text */
+    --background-color: #f9fafb; /* Light background */
+    --box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 body {
-    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    background: linear-gradient(135deg, var(--background-color) 0%, #f3f4f6 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1rem;
+    font-family: sans-serif; /* Add a default font */
 }
 
 .register-container {
     background: white;
     padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    box-shadow: var(--box-shadow);
     width: 100%;
     max-width: 450px;
 }
@@ -36,7 +42,7 @@ body {
 }
 
 h1 {
-    color: #111827;
+    color: var(--text-color-primary);
     font-size: 1.875rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -44,7 +50,7 @@ h1 {
 }
 
 .subtitle {
-    color: #6b7280;
+    color: var(--text-color-secondary);
     text-align: center;
     margin-bottom: 2rem;
 }
@@ -53,38 +59,39 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
-.form-label {
+label {  /* Style labels directly */
     display: block;
-    color: #374151;
+    color: var(--text-color-primary);
     font-size: 0.875rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
 }
 
-.form-input {
+input[type="text"],
+input[type="email"],
+input[type="password"] { /* Style inputs directly */
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--border-color);
     border-radius: 0.5rem;
     font-size: 1rem;
     transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; /* Important for consistent sizing */
 }
 
-.form-input:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
-.form-input.error {
-    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); /* Use your primary color */
 }
 
 .error-message {
     color: var(--error-color);
     font-size: 0.875rem;
     margin-top: 0.5rem;
-    display: none;
+    display: block; /* Make sure error messages are visible */
 }
 
 .password-strength {
@@ -105,7 +112,7 @@ h1 {
 .strength-text {
     font-size: 0.875rem;
     margin-top: 0.25rem;
-    color: #6b7280;
+    color: var(--text-color-secondary);
 }
 
 .submit-btn {
@@ -122,7 +129,7 @@ h1 {
 }
 
 .submit-btn:hover {
-    background: #4338ca;
+    background: #4338ca; /* Slightly darker primary color */
 }
 
 .submit-btn:disabled {
@@ -133,7 +140,7 @@ h1 {
 .form-footer {
     text-align: center;
     margin-top: 1.5rem;
-    color: #6b7280;
+    color: var(--text-color-secondary);
     font-size: 0.875rem;
 }
 
@@ -145,32 +152,4 @@ h1 {
 
 .form-footer a:hover {
     text-decoration: underline;
-}
-
-.success-message {
-    display: none;
-    text-align: center;
-    color: var(--success-color);
-    margin-top: 1rem;
-    font-weight: 500;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-.shake {
-    animation: shake 0.5s ease-in-out;
-}
-
-@media (max-width: 480px) {
-    .register-container {
-        padding: 1.5rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
 }
