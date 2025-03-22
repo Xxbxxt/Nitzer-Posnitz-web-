@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inventory Dashboard{% endblock %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<div class="min-h-screen bg-gray-100">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-gray-900">
+                {% if user.is_authenticated %}
+                Welcome, {{ user.username }}!
+                {% else %}
+                Inventory Management
+                {% endif %}
+            </h1>
+            <div class="relative flex items-center">
+                <input type="text" placeholder="Search products..." 
+                       class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       id="globalSearch">
+                <i class="fas fa-search absolute left-3 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <button class="quick-action-btn" data-modal="addProductModal">
+                <i class="fas fa-cube mr-2"></i> Add Product
+            </button>
+            <button class="quick-action-btn" data-modal="createSaleModal">
+                <i class="fas fa-cash-register mr-2"></i> New Sale
+            </button>
+            <button class="quick-action-btn" data-modal="createPurchaseModal">
+                <i class="fas fa-truck mr-2"></i> New Purchase
+            </button>
+            <button class="quick-action-btn" onclick="exportProducts()">
+                <i class="fas fa-file-export mr-2"></i> Export Data
+            </button>
+        </div>
+
+        <!-- Product Catalog Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b flex justify-between items-center">
+                <h2 class="text-lg font-semibold">Product Catalog</h2>
+                <div class="flex space-x-4">
+                    <select class="border rounded px-3 py-1" id="categoryFilter">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="table-header cursor-pointer" onclick="sortTable('name')">Name</th>
+                            <th class="table-header">SKU</th>
+                            <th class="table-header cursor-pointer" onclick="sortTable('category')">Category</th>
+                            <th class="table-header cursor-pointer" onclick="sortTable('stock')">Stock</th>
+                            <th class="table-header cursor-pointer" onclick="sortTable('price')">Price</th>
+                            <th class="table-header">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for product in products %}
+                        <tr class="{{ product.stock_level|yesno:'hover:bg-green-50,hover:bg-red-50' }}">
+                            <td class="table-data">{{ product.name }}</td>
+                            <td class="table-data font-mono">{{ product.sku }}</td>
+                            <td class="table-data">
+                                <span class="px-2 py-1 text-sm rounded-full bg-blue-100 text-blue-800">
+                                    {{ product.category.name }}
+                                </span>
+                            </td>
+                            <td class="table-data">
+                                <span class="{% if product.stock_level < product.reorder_point %}text-red-600 font-semibold{% else %}text-black{% endif %}">
+                                    {{ product.stock_level }}
+                                </span>
+                                {% if product.stock_level < product.reorder_point %}
+                                <i class="fas fa-exclamation-circle text-red-500 ml-2"></i>
+                                {% endif %}
+                            </td>
+                            <td class="table-data">${{ product.price }}</td>
+                            <td class="table-data">
+                                <button class="icon-btn text-blue-600 hover:bg-blue-100"
+                                        data-modal="editProductModal"
+                                        onclick="loadProductData('{{ product.id }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="icon-btn text-red-600 hover:bg-red-100"
+                                        onclick="confirmDelete('{{ product.id }}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+            <div class="stats-card bg-blue-100">
+                <div>
+                    <h3>Total Products</h3>
+                    <p class="text-3xl font-bold">{{ products_count }}</p>
+                </div>
+                <i class="fas fa-cubes text-blue-600 text-4xl"></i>
+            </div>
+            <div class="stats-card bg-green-100">
+                <div>
+                    <h3>Monthly Sales</h3>
+                    <p class="text-3xl font-bold">${{ monthly_sales }}</p>
+                </div>
+                <i class="fas fa-chart-line text-green-600 text-4xl"></i>
+            </div>
+            <div class="stats-card bg-red-100">
+                <div>
+                    <h3>Low Stock Items</h3>
+                    <p class="text-3xl font-bold">{{ low_stock_count }}</p>
+                </div>
+                <i class="fas fa-exclamation-triangle text-red-600 text-4xl"></i>
+            </div>
+        </div>
+
+        <!-- Recent Sales Section -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b flex justify-between items-center">
+                <h2 class="text-lg font-semibold">Recent Sales</h2>
+                <button class="text-blue-600 hover:text-blue-800" onclick="loadMoreSales()">
+                    View All <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <!-- Similar table structure to products table -->
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modals -->
+{% include 'modals/add_product_modal.html' %}
+{% include 'modals/edit_product_modal.html' %}
+{% include 'modals/create_sale_modal.html' %}
+{% include 'modals/stock_adjustment_modal.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // JavaScript for dynamic interactions
+    function confirmDelete(productId) {
+        if (confirm('Are you sure you want to delete this product?')) {
+            fetch(`/products/${productId}/delete/`, {
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'}
+            }).then(response => {
+                if (response.ok) location.reload();
+            });
+        }
+    }
+
+    function loadProductData(productId) {
+        fetch(`/products/${productId}/json/`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('editProductName').value = data.name;
+                // Populate other form fields
+            });
+    }
+
+    // Initialize charts
+    const salesChart = new Chart(document.getElementById('salesChart'), {
+        type: 'bar',
+        data: {/* ... */},
+        options: {/* ... */}
+    });
+</script>
+
+<style>
+    .quick-action-btn {
+        @apply bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-all 
+               text-left border hover:border-blue-500 flex items-center;
+    }
+
+    .table-header {
+        @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+    }
+
+    .table-data {
+        @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+    }
+
+    .icon-btn {
+        @apply p-2 rounded-full transition-colors duration-200;
+    }
+
+    .stats-card {
+        @apply p-6 rounded-lg shadow-sm flex justify-between items-center;
+    }
+</style>
+{% endblock %}
