@@ -14,6 +14,7 @@ def chatbot(request):
     return render(request, 'Posnitz/chatbot.html')
 
 def inventory(request):
+    
     return render(request, 'Posnitz/inventory.html')
 
 def base(request):

@@ -24,7 +24,7 @@
                 <img src="" alt="Logo">
                 <h2 class="hidden">LOGO</h2>
             </a>
-            <button class="toggle-btn">
+            <button type="button" class="toggle-btn" title="toggle-btn">
                 <i class="fas fa-chevron-left"></i>
             </button>
         </div>
@@ -38,27 +38,29 @@
                 <i class="fas fa-box"></i>
                 <span class="hidden">Inventory</span>
             </a>
-            <a class="nav-item" href="{% url 'chatbot' %}">
+
+            <!-- <a class="nav-item" href="{% url 'chatbot' %}">
                 <i class="fas fa-robot"></i>
                 <span class="hidden">Chatbot</span>
-            </a>
-            </li>
+            </a> -->
+
             <a class="nav-item" href="{% url 'analytics' %}">
                 <i class="fas fa-chart-line"></i>
                 <span class="hidden">Analytics</span>
             </a>
-            <a href="#" class="nav-item">
+
+            <!-- <a href="#" class="nav-item">
                 <i class="fas fa-microphone mr-3"></i>
                 <span class="hidden">Voice Chat</span>
-            </a>
+            </a> -->
             
-            <a href="#" class="link nav-item">
+            <!-- <a href="#" class="link nav-item">
                 <i class="fas fa-truck mr-3"></i>
                 <span class="hidden">Suppliers</span>
-            </a>
+            </a> -->
         </div>
-       
 
+        <!-- The bottom part of the sidebar -->
         <div class="sidebar-bottom">
             <div class="sidebar-links nav-item">
                 <a class="link">
@@ -91,7 +93,7 @@
     <div class="chat-popup" id="chatPopup">
         <div class="chat-header">
             <h3>Assistant</h3>
-            <button id="closeChatBtn"><i class="fas fa-times"></i></button>
+            <button id="closeChatBtn"><i class="fas fa-times" title="closeChatBtn"></i></button>
         </div>
 
         <div class="chat-messages" id="chatMessages">
@@ -100,7 +102,7 @@
 
         <div class="chat-input-container">
             <input type="text" class="chat-input" placeholder="Type a message...">
-            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+            <button class="send-btn" title="send-btn"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
